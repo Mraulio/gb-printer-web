@@ -9,7 +9,7 @@ const mapCartFrameToName = (frameNumber, savFrameTypes, frames) => {
     return exactFrameId;
   }
 
-  // for js frame, try to fall back to int frames, as jp/int share a lot
+  // for jp frame, try to fall back to int frames, as jp/int share a lot
   if (savFrameTypes === 'jp') {
     const intFrameId = `int${paddedFrameNumber}`;
     if (frameIsDefined(intFrameId)) {
