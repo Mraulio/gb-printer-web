@@ -12,7 +12,7 @@
     "build:deploy": "node ./scripts/deploy.js",
     "test": "npm run test:clean && npm run test:run",
     "test:clean": "rimraf coverage/*",
-    "test:run": "jest --coverage",
+    "test:run": "jest",
     "deploy-gh-pages": "npm i && npm run build && cd dist && git add . && git commit -m \"pages update\" && git push",
     "svgo": "svgo ./src/assets/icons/"
   },
