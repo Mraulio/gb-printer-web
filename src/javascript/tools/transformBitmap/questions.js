@@ -1,6 +1,6 @@
 import getFrameId from './getFrameId';
 
-const getTransformBitmap = ({ frameIds, frameGroups, fileName }) => ({
+const getQuestions = ({ frameIds, frameGroups, fileName }) => ({
   frameSet = '',
   frameSetNew = '',
   frameIndex = '',
@@ -56,4 +56,4 @@ const getTransformBitmap = ({ frameIds, frameGroups, fileName }) => ({
   ];
 };
 
-export default getTransformBitmap;
+export default getQuestions;

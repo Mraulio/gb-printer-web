@@ -1,6 +1,6 @@
 import { localforageImages } from '../localforageInstance';
 
-const getImages = (what, exportImageHashes) => (
+const getSettings = (what, exportImageHashes) => (
   Promise.all(exportImageHashes.map((hash) => (
     localforageImages.getItem(hash)
       .then((data) => ({
@@ -18,4 +18,4 @@ const getImages = (what, exportImageHashes) => (
     })
 );
 
-export default getImages;
+export default getSettings;
