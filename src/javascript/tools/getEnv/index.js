@@ -14,7 +14,7 @@ const loadEnv = () => {
         .then(() => (
           fetch('./env.json')
             .then((res) => res.json())
-            .catch(() => ({
+            .catch((error) => ({
               version: '0.0.0',
               maximages: 0,
               localforage: 'error',
@@ -22,6 +22,7 @@ const loadEnv = () => {
               fstype: '-',
               bootmode: '-',
               oled: false,
+              error: error.message,
             }))
             .then((env) => {
               envData = {
