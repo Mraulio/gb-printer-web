@@ -1,15 +1,15 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import getTransformSav from '../../../javascript/tools/transformSav';
-// import mockSav from '../../mockdata/frames.sav';
-
-const mockSav = Array(1024 * 128).fill(255);
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
+const framesIntResult = require('./frames_int.json');
+const mockSav = global.mockBinaries['frames.sav'];
 
 describe('getTransformSav', () => {
-  it('dispatches CONFIRM_ASK', () => {
+
+  it('to ask for frames before resolving with images', () => {
     const store = mockStore({
       // images: [],
       savFrameTypes: 'int',
@@ -19,57 +19,63 @@ describe('getTransformSav', () => {
       ],
     });
 
-    let questionOptions;
+    // start import
+    const call = getTransformSav(store)(mockSav, 'frames.sav');
 
-    new Promise((resolve) => {
-      getTransformSav(store)(mockSav, 'frames.sav');
-      questionOptions = store.getActions()[0].payload.questions()[0].options;
-      store.getActions()[0].payload.deny();
-      store.getActions()[0].payload.confirm({ selectedFrameset: 'int' });
+    const questionOptions = store.getActions()[0].payload.questions()[0].options;
 
-      window.setTimeout(() => {
-        resolve();
-      }, 200);
-    })
-      .then(() => {
-        expect(store.getActions()[0].type).toBe('CONFIRM_ASK');
-        expect(store.getActions()[1].type).toBe('CONFIRM_ANSWERED');
-        expect(store.getActions()[2].type).toBe('CONFIRM_ANSWERED');
+    expect(questionOptions.length).toBe(2);
 
-        expect(questionOptions).toStrictEqual([
-          {
-            value: 'int',
-            name: 'International Frames (GameBoy Camera)',
-            selected: true,
-          },
-          {
-            value: 'jp',
-            name: 'Japanese Frames (Pocket Camera)',
-            selected: false,
-          },
-        ]);
+    expect(typeof store.getActions()[0].payload.deny).toBe('function');
 
-        expect(store.getActions()[3].type).toBe('ADD_TO_QUEUE');
-      });
+    expect(store.getActions()[0].type).toBe('CONFIRM_ASK');
+    expect(store.getActions()[1]).toBeFalsy();
 
+    // "click" the confirm button
+    store.getActions()[0].payload.confirm({ selectedFrameset: 'int' });
+
+    expect(store.getActions()[1].type).toBe('CONFIRM_ANSWERED');
+
+    return call.then((images) => {
+      expect(images).toStrictEqual(framesIntResult);
+    });
   });
 
-  it('dispatches ADD_TO_QUEUE', () => {
+  it('to resolve without images if cancelled', () => {
     const store = mockStore({
       // images: [],
       savFrameTypes: 'int',
+      frames: [
+        { id: 'int01', name: 'int' },
+        { id: 'jp02', name: 'jp' },
+      ],
+    });
+
+    // start import
+    const call = getTransformSav(store)(mockSav, 'frames.sav');
+
+    const questionOptions = store.getActions()[0].payload.questions()[0].options;
+
+    expect(questionOptions.length).toBe(2);
+
+    // "click" the deny button
+    store.getActions()[0].payload.deny();
+
+    expect(store.getActions()[1].type).toBe('CONFIRM_ANSWERED');
+
+    return call.then((images) => {
+      expect(images).toStrictEqual([]);
+    });
+  });
+
+  it('resolves with images without asking a question', () => {
+    const store = mockStore({
       frames: [],
     });
 
-    new Promise((resolve) => {
-      getTransformSav(store)(mockSav, 'frames.sav');
-
-      window.setTimeout(() => {
-        resolve();
-      }, 200);
-    })
-      .then(() => {
-        expect(store.getActions()[0].type).toBe('ADD_TO_QUEUE');
+    return getTransformSav(store)(mockSav, 'frames.sav')
+      .then((images) => {
+        expect(images).toStrictEqual(framesIntResult);
       });
   });
 
