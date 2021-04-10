@@ -4,7 +4,6 @@ import getTransformSav from '../../../javascript/tools/transformSav';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const framesIntResult = require('./frames_int.json');
 const mockSav = global.mockBinaries['frames.sav'];
 
 describe('getTransformSav', () => {
@@ -37,7 +36,7 @@ describe('getTransformSav', () => {
     expect(store.getActions()[1].type).toBe('CONFIRM_ANSWERED');
 
     return call.then((images) => {
-      expect(images).toStrictEqual(framesIntResult);
+      expect(images).toMatchSnapshot();
     });
   });
 
@@ -75,7 +74,7 @@ describe('getTransformSav', () => {
 
     return getTransformSav(store)(mockSav, 'frames.sav')
       .then((images) => {
-        expect(images).toStrictEqual(framesIntResult);
+        expect(images).toMatchSnapshot();
       });
   });
 
