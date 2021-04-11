@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Decoder renders an image 1`] = `
+exports[`Decoder.update renders an image 1`] = `
 Uint8ClampedArray [
   0,
   0,
@@ -92165,7 +92165,7 @@ Uint8ClampedArray [
 ]
 `;
 
-exports[`Decoder renders an image with a inverted palette 1`] = `
+exports[`Decoder.update renders an image with a inverted palette 1`] = `
 Uint8ClampedArray [
   255,
   212,
@@ -184330,7 +184330,7 @@ Uint8ClampedArray [
 ]
 `;
 
-exports[`Decoder renders an image with a inverted palette without affecting the frame 1`] = `
+exports[`Decoder.update renders an image with a inverted palette without affecting the frame 1`] = `
 Uint8ClampedArray [
   255,
   255,
@@ -276495,7 +276495,7 @@ Uint8ClampedArray [
 ]
 `;
 
-exports[`Decoder renders an image with a palette 1`] = `
+exports[`Decoder.update renders an image with a palette 1`] = `
 Uint8ClampedArray [
   68,
   0,
@@ -368660,7 +368660,7 @@ Uint8ClampedArray [
 ]
 `;
 
-exports[`Decoder renders an image with a palette without affecting the frame 1`] = `
+exports[`Decoder.update renders an image with a palette without affecting the frame 1`] = `
 Uint8ClampedArray [
   0,
   0,

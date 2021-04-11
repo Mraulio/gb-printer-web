@@ -1,7 +1,7 @@
 import Decoder from '../../../javascript/tools/Decoder';
 import dummy from './dummy';
 
-describe('Decoder', () => {
+describe('Decoder.update', () => {
   let decoder;
   let canvas;
   let context;
