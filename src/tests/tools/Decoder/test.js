@@ -59,4 +59,20 @@ describe('Decoder', () => {
     expect(putImageData.mock.calls[0][0].height).toBe(144); // y dimension
     expect(putImageData.mock.calls[0][0].data).toMatchSnapshot();
   });
+
+  it('renders an image with a inverted palette', () => {
+    decoder.update({
+      canvas,
+      tiles: dummy,
+      palette: ['#ffd484', '#6ab300', '#006262', '#44005f'],
+      invertPalette: true,
+    });
+
+    expect(putImageData.mock.calls.length).toBe(1); // calle only once
+    expect(putImageData.mock.calls[0][1]).toBe(0); // x coordinate
+    expect(putImageData.mock.calls[0][2]).toBe(0); // y coordinate
+    expect(putImageData.mock.calls[0][0].width).toBe(160); // x dimension
+    expect(putImageData.mock.calls[0][0].height).toBe(144); // y dimension
+    expect(putImageData.mock.calls[0][0].data).toMatchSnapshot();
+  });
 });
