@@ -94,3 +94,26 @@ describe('Decoder.update', () => {
     expect(putImageData.mock.calls[0][0].data).toMatchSnapshot();
   });
 });
+
+// describe('Decoder.getScaledCanvas', () => {
+//   let decoder;
+//
+//   beforeEach(() => {
+//     decoder = new Decoder();
+//
+//     decoder.update({
+//       tiles: dummy,
+//       palette: ['#fff984', '#8cb300', '#006205', '#00575f'],
+//       invertPalette: true,
+//       lockFrame: true,
+//     });
+//   });
+//
+//   it('returns a scaled canvas', () => {
+//
+//     const resultCanvas = decoder.getScaledCanvas(2, 'keep');
+//
+//     console.log(resultCanvas);
+//
+//   });
+// });
