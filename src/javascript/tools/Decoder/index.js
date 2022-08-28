@@ -22,6 +22,7 @@ class Decoder {
 
     this.blackLine = Array(20).fill(black);
     this.whiteLine = Array(20).fill(white);
+    this.cropWhiteLine = Array(16).fill(white);
 
     this.tileIndexIsFramePart = tileIndexIsPartOfFrame;
   }
@@ -128,12 +129,18 @@ class Decoder {
           tilesPerLine: TILES_PER_LINE - FRAME_TILES,
         };
       case 'square_black':
-      case 'square_white':
+      case 'square_white':        
       case 'square_smart':
         return {
           initialHeight: this.getHeight() + (2 * TILE_PIXEL_HEIGHT),
           initialWidth: TILES_PER_LINE * TILE_PIXEL_WIDTH,
           tilesPerLine: TILES_PER_LINE,
+        };
+      case 'crop_add_white':
+        return {
+          initialHeight: this.getHeight() - (TILE_PIXEL_HEIGHT * FRAME_TILES) + (2 * TILE_PIXEL_HEIGHT),
+          initialWidth: (TILES_PER_LINE * TILE_PIXEL_WIDTH) - (TILE_PIXEL_WIDTH * FRAME_TILES),
+          tilesPerLine: TILES_PER_LINE - FRAME_TILES,
         };
       default:
         throw new Error(`unknown export mode ${handleExportFrame}`);
@@ -159,7 +166,7 @@ class Decoder {
       case 'square_white':
         return [
           ...this.whiteLine,
-          ...this.tiles,
+          ...this.tiles,          
           ...this.whiteLine,
         ];
       case 'square_smart':
@@ -167,6 +174,16 @@ class Decoder {
           ...this.smartTile('first'),
           ...this.tiles,
           ...this.smartTile('last'),
+        ];
+      case 'crop_add_white':
+        return [
+          ...this.cropWhiteLine,
+          ...this.tiles
+          .map((tile, index) => (
+            this.tileIndexIsFramePart(index, 'keep') ? null : tile
+          ))
+          .filter(Boolean),
+          ...this.cropWhiteLine,
         ];
       default:
         throw new Error(`unknown export mode ${handleExportFrame}`);

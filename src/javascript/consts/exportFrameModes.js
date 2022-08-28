@@ -16,6 +16,10 @@ const exportFrameModes = [
     name: 'Make image squared (add white)',
   },
   {
+    id: 'crop_add_white',
+    name: 'Crop image and make squared (add white)',
+  },
+  {
     id: 'square_smart',
     name: 'Make image squared (smart - repeats first/last line - works in most cases...)',
   },
