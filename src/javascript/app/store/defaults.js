@@ -75,7 +75,7 @@ const definitions = [
     value: null,
   },
   {
-    // how to save videos (loop, crop, yoyo, palette)
+    // how to save videos (loop, crop, yoyo, reverse, palette)
     key: 'videoParams',
     saveLocally: true,
     saveExport: ['settings', 'remote'],
@@ -121,6 +121,13 @@ const definitions = [
     saveLocally: true,
     saveExport: ['settings', 'remote'],
     value: true,
+  },
+  {
+    // if images will get padded up to 144px on import
+    key: 'importPad',
+    saveLocally: true,
+    saveExport: ['settings', 'remote'],
+    value: false,
   },
   {
     // visiblility of dates in gallery
